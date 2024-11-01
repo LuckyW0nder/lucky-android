@@ -7,10 +7,10 @@ public class Pokemon {
 
     private String name;
     private Type type;
-    private double combatPower;
-    private Trainer trainer;
+    private double combatPower = 100;
+    private Trainer trainer = null;
     private final int number;
-    private static int nextNumber;
+    private static int nextNumber = 1;
     private List<Swap> swaps = new ArrayList<>();
     private List<Swap> competitions = new ArrayList<>();
     private boolean isSwapAllowed = true;
@@ -61,6 +61,14 @@ public class Pokemon {
         this.type = type;
     }
 
+    public double getCombatPower() {
+        return combatPower;
+    }
+
+    public void setCombatPower(double combatPower) {
+        this.combatPower = combatPower;
+    }
+
     public int getNumber() {
         return number;
     }
@@ -77,8 +85,16 @@ public class Pokemon {
         getSwaps().add(swap);
     }
 
+    public List<Swap> getCompetitions() {
+        return competitions;
+    }
+
+    public void setCompetitions(List<Swap> competitions) {
+        this.competitions = competitions;
+    }
+
     public void addCompetition(Competition competition) {
-        getSwaps().add(competition);
+        getCompetitions().add(competition);
     }
 
     public boolean isSwapAllowed() {
@@ -92,9 +108,13 @@ public class Pokemon {
 
     //implements SF: Show Pokemon Details in Terminal
     @Override
-    public String toString() {
-        return "Pokemon(" + getNumber() + ") '" + getName() + "' of type '" + getType() +
-                "' has trainer '" + getTrainer() + "'";
+    public String toString()
+    {
+        if(getTrainer() == null)
+        {return "Pokemon(" + getNumber() + ") '" + getName() + "' of type '" + getType() + "'";}
+        else
+        {return "Pokemon(" + getNumber() + ") '" + getName() + "' of type '" + getType() +
+                "' has trainer '" + getTrainer() + "'";}
     }
 
     public static void main(String[] args) {

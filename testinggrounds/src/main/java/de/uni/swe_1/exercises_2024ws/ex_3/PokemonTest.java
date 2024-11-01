@@ -7,19 +7,22 @@ public class PokemonTest {
 
     public static final String BEFORE_SWAP = "Before Swap:";
     public static final String AFTER_SWAP = "After Swap:";
+    public static final String BEFORE_COMPETITION = "Before Competition:";
+    public static final String AFTER_COMPETITION = "After Competition:";
+
 
     public static void main(String[] args) {
         // https://de.wikipedia.org/wiki/Liste_der_Pok%C3%A9mon
         // Test of Constructor with each Type
         System.out.println("Testen des Konstruktors");
-        Pokemon p0 = new Pokemon("Pikachu", Type.POISON);
-        System.out.println("Pokemon p0 angelegt mit Name Pikachu und Typ Poison");
-        Pokemon p1 = new Pokemon("Carapuce", Type.WATER);
-        System.out.println("Pokemon p1 angelegt mit Name Carapuce und Typ Water");
-        Pokemon p2 = new Pokemon("Raupy", Type.FIRE);
-        System.out.println("Pokemon p2 angelegt mit Name Raupy und Typ Fire");
+        Pokemon p0 = new Pokemon("Bulbasaur", Type.POISON);
+        System.out.println("Pokemon p0 angelegt mit Name Bulbasaur und Typ Poison");
+        Pokemon p1 = new Pokemon("Squirtle", Type.WATER);
+        System.out.println("Pokemon p1 angelegt mit Name Squirtle und Typ Water");
+        Pokemon p2 = new Pokemon("Glumanda", Type.FIRE);
+        System.out.println("Pokemon p2 angelegt mit Name Glumanda und Typ Fire");
 
-        // Test of toString and check if each Pokemon is constructed right
+        /*// Test of toString and check if each Pokemon is constructed right
         System.out.println();
         System.out.println("Testen von toString und ob alle Pokemon richtig angelegt wurden");
         System.out.println("Pokemon p0:");
@@ -48,23 +51,23 @@ public class PokemonTest {
         System.out.println("Typ von p2 zu Water ändern");
         p2.setType(Type.WATER);
         System.out.println(p2);
-
-        // Test of getter of number (no setter available, because it should not be
+        */
+        /*// Test of getter of number (no setter available, because it should not be
         // changed)
         System.out.println();
         System.out.println("Testen von getNumber");
         System.out.println("Nummer von p2: " + p2.getNumber());
-
+        */
         // A 2.1
         // Test Constructor of Trainers
         System.out.println();
         System.out.println("Testen des Konstruktors von Trainer");
-        Trainer t0 = new Trainer("Peter", "Lustig");
-        System.out.println("Trainer t0 angelegt mit firstname Peter und lastname Lustig");
-        Trainer t1 = new Trainer("Alisa", "Traurig");
-        System.out.println("Trainer t1 angelegt mit firstname Alisa und lastname Traurig");
+        Trainer t0 = new Trainer("Ash", "Ketchum");
+        System.out.println("Trainer t0 angelegt mit firstname Ash und lastname Ketchum");
+        Trainer t1 = new Trainer("Misty", "Williams");
+        System.out.println("Trainer t1 angelegt mit firstname Misty und lastname Williams");
 
-        // Test of toString and check if each Trainer is constructed right
+        /*// Test of toString and check if each Trainer is constructed right
         System.out.println();
         System.out.println("Testen von toString und ob alle Trainer richtig angelegt wurden");
         System.out.println("Trainer t0:");
@@ -91,7 +94,7 @@ public class PokemonTest {
         System.out.println("Nachname von t1 zu Fröhlich ändern:");
         t1.setLastName("Fröhlich");
         System.out.println(t1);
-
+        */
         // Test add a Pokemon to Trainer t0 and Test getPokemons
         System.out.println();
         System.out.println("Testen von addPokemon und getPokemons");
@@ -112,7 +115,7 @@ public class PokemonTest {
         System.out.println("Pokemons of " + t1 + ": ");
         System.out.println(t1.getPokemons());
 
-        // Test getPokemon(index)
+        /*// Test getPokemon(index)
         System.out.println();
         System.out.println("Testen von getPokemon(index)");
         System.out.println("Das 2. Pokemon von Trainer t1 (Index 1)");
@@ -123,9 +126,9 @@ public class PokemonTest {
         System.out.println("Testen von getPokemonOfType");
         System.out.println("Pokemon von Trainer t1 vom Typ Poison:");
         System.out.println(t1.getPokemonsOfType(Type.POISON));
-
+        */
         // A 2.2
-        // Test Swap when there should be no problem
+        /*// Test Swap when there should be no problem
         System.out.println();
         System.out.println("Testen von Swap ohne Probleme");
         System.out.println(BEFORE_SWAP);
@@ -162,5 +165,60 @@ public class PokemonTest {
         System.out.println(p1);
         System.out.println(p2);
         System.out.println();
+        */
+        // A 3.1
+        // Test Competion when there should be no problem
+        t0.addPokemon(p0);
+        t1.addPokemon(p1);
+        System.out.println();
+        System.out.println("Testen von Competition ohne Probleme");
+        System.out.println(BEFORE_COMPETITION);
+        System.out.println(p0);
+        System.out.println(p1);
+        Competition c1 = new Competition();
+        c1.execute(p0, p1);
+        System.out.println(AFTER_COMPETITION);
+        System.out.println(p0);
+        System.out.println(p1);
+
+        // Test Competion for Pokemon with the same trainer
+        System.out.println();
+        System.out.println("Testen von Competition mit gleichen Trainer");
+        System.out.println(BEFORE_COMPETITION);
+        System.out.println(p0);
+        System.out.println(p1);
+        Competition c2 = new Competition();
+        c2.execute(p0, p1);
+        System.out.println(AFTER_COMPETITION);
+        System.out.println(p0);
+        System.out.println(p1);
+
+        // Test Competition for Pokemon without a trainer
+        System.out.println();
+        System.out.println("Testen von Competition mit Pokemon p1 ohne Trainer");
+        p1.getTrainer().releasePokemon(p1);
+        System.out.println(BEFORE_COMPETITION);
+        System.out.println(p0);
+        System.out.println(p1);
+        Competition c3 = new Competition();
+        c3.execute(p0, p1);
+        System.out.println(AFTER_COMPETITION);
+        System.out.println(p0);
+        System.out.println(p1);
+
+        // Test Competition for Pokemon that isn't allowed to be swapped
+        System.out.println();
+        System.out.println("Testen von Competition mit Pokemon p1 ohne Tauscherlaubins");
+        t0.addPokemon(p0);
+        t1.addPokemon(p1);
+        p1.setSwapAllowed(false);
+        System.out.println(BEFORE_COMPETITION);
+        System.out.println(p0);
+        System.out.println(p1);
+        Competition c4 = new Competition();
+        c4.execute(p0, p1);
+        System.out.println(AFTER_COMPETITION);
+        System.out.println(p0);
+        System.out.println(p1);
     }
 }

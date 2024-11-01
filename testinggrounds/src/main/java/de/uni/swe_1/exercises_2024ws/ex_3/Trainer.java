@@ -66,6 +66,11 @@ public class Trainer {
         pokemon.setTrainer(this); // set as trainer
     }
 
+    public void releasePokemon(Pokemon pokemon) {
+        getPokemons().remove(pokemon); // remove from list
+        pokemon.setTrainer(null); // set empty trainer
+    }
+
     //implements SF: Show Trainer Details in Terminal
     public String toString() {
         return getFirstName() + " " + getLastName();

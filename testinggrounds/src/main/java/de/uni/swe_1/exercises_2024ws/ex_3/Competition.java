@@ -5,6 +5,7 @@ import java.util.Date;
 public class Competition extends Swap
 {
     private Trainer winner = null;
+    public static final String DAMAGE_INFLICTED = " (Damage inflicted: ";
     @Override
     public void execute(Pokemon sourcePokemon, Pokemon targetPokemon)
     {
@@ -46,8 +47,8 @@ public class Competition extends Swap
         if (sourceDamage > targetDamage)
         {
             this.setWinner(sourceTrainer);
-            System.out.println(sourcePokemon + " hat gewonnen!" + "\n" +
-                    "Transferiere " + targetPokemon + " zu " + sourceTrainer + "!");
+            System.out.println(sourcePokemon.getName() + DAMAGE_INFLICTED + (int) sourceDamage + ") hat gewonnen!" + "\n" +
+                    "Transferiere " + targetPokemon.getName() + DAMAGE_INFLICTED + (int) targetDamage + ") zu " + sourceTrainer + "!");
 
             // remove the Pokemon from the Loser
             targetTrainer.getPokemons().remove(targetPokemon);
@@ -58,8 +59,8 @@ public class Competition extends Swap
         else if (sourceDamage < targetDamage)
         {
             this.setWinner(targetTrainer);
-            System.out.println(targetPokemon + " hat gewonnen!" + "\n" +
-                    "Transferiere " + sourcePokemon + " zu " + targetTrainer + "!");
+            System.out.println(targetPokemon.getName() + DAMAGE_INFLICTED + (int) targetDamage + ") hat gewonnen!" + "\n" +
+                    "Transferiere " + sourcePokemon.getName() + DAMAGE_INFLICTED + (int) sourceDamage + ") zu " + sourceTrainer + "!");
 
             // remove the Pokemon from the Loser
             sourceTrainer.getPokemons().remove(sourcePokemon);
@@ -89,6 +90,7 @@ public class Competition extends Swap
     public double calclateDamage(Pokemon p1, Pokemon p2)
     {
         // Determine type effectiveness
+        // NOTE: type effectiveness is currently always applied twice, since one pokemon always attacks for super-effective damage and one attacks for not-very-effective damage
         double effectiveness = p1.getType().getEffectivenessAgainst(p2.getType());
         // Random damage roll multiplier
         double damageRoll = 1 - (Math.random() / 10);

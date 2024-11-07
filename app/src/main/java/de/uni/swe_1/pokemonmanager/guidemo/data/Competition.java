@@ -4,7 +4,8 @@ import java.util.Date;
 
 public class Competition extends Swap
 {
-    private Trainer winner = null;
+    private Trainer winnerTrainer = null;
+    private Pokemon winnerPokemon = null;
     public static final String DAMAGE_INFLICTED = " (Damage inflicted: ";
     @Override
     public void execute(Pokemon sourcePokemon, Pokemon targetPokemon)
@@ -46,27 +47,11 @@ public class Competition extends Swap
         // Determine the winner
         if (sourceDamage > targetDamage)
         {
-            this.setWinner(sourceTrainer);
-            System.out.println(sourcePokemon.getName() + DAMAGE_INFLICTED + (int) sourceDamage + ") hat gewonnen!" + "\n" +
-                    "Transferiere " + targetPokemon.getName() + DAMAGE_INFLICTED + (int) targetDamage + ") zu " + sourceTrainer + "!");
-
-            // remove the Pokemon from the Loser
-            targetTrainer.getPokemons().remove(targetPokemon);
-            // reassign the Pokemon to the Winner
-            sourceTrainer.addPokemon(targetPokemon);
-            targetPokemon.setTrainer(sourceTrainer);
+            transferPokemon(sourcePokemon, targetPokemon, sourceTrainer, targetTrainer, sourceDamage, targetDamage);
         }
         else if (sourceDamage < targetDamage)
         {
-            this.setWinner(targetTrainer);
-            System.out.println(targetPokemon.getName() + DAMAGE_INFLICTED + (int) targetDamage + ") hat gewonnen!" + "\n" +
-                    "Transferiere " + sourcePokemon.getName() + DAMAGE_INFLICTED + (int) sourceDamage + ") zu " + sourceTrainer + "!");
-
-            // remove the Pokemon from the Loser
-            sourceTrainer.getPokemons().remove(sourcePokemon);
-            // reassign the Pokemon to the Winner
-            targetTrainer.addPokemon(sourcePokemon);
-            sourcePokemon.setTrainer(targetTrainer);
+            transferPokemon(targetPokemon, sourcePokemon, targetTrainer, sourceTrainer, targetDamage, sourceDamage);
         }
         else
         {
@@ -77,14 +62,24 @@ public class Competition extends Swap
         targetPokemon.addCompetition(this);
     }
 
-    public Trainer getWinner()
+    public Trainer getWinnerTrainer()
     {
-        return winner;
+        return winnerTrainer;
     }
 
-    public void setWinner(Trainer winner)
+    public void setWinnerTrainer(Trainer winnerTrainer)
     {
-        this.winner = winner;
+        this.winnerTrainer = winnerTrainer;
+    }
+
+    public Pokemon getWinnerPokemon()
+    {
+        return winnerPokemon;
+    }
+
+    public void setWinnerPokemon(Pokemon winnerPokemon)
+    {
+        this.winnerPokemon = winnerPokemon;
     }
 
     public double calculateDamage(Pokemon p1, Pokemon p2)
@@ -98,5 +93,18 @@ public class Competition extends Swap
         double critical = (1.0/24.0 < Math.random()) ? 1.5 : 1;
 
         return p1.getCombatPower() * damageRoll * critical * effectiveness;
+    }
+
+    private void transferPokemon(Pokemon winnerPokemon, Pokemon loserPokemon, Trainer winnerTrainer, Trainer loserTrainer, double winnerDamage, double loserDamage) {
+        this.setWinnerTrainer(winnerTrainer);
+        this.setWinnerPokemon(winnerPokemon);
+        System.out.println(winnerPokemon.getName() + DAMAGE_INFLICTED + (int) winnerDamage + ") hat gewonnen!" + "\n" +
+                "Transferiere " + loserPokemon.getName() + DAMAGE_INFLICTED + (int) loserDamage + ") zu " + winnerTrainer + "!");
+
+        // remove the Pokemon from the Loser
+        loserTrainer.getPokemons().remove(loserPokemon);
+        // reassign the Pokemon to the Winner
+        winnerTrainer.addPokemon(loserPokemon);
+        loserPokemon.setTrainer(winnerTrainer);
     }
 }

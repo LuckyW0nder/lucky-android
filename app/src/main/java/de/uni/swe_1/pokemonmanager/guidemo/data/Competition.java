@@ -40,10 +40,10 @@ public class Competition extends Swap
         this.setId("" + System.currentTimeMillis());
 
 
-        double sourceDamage = calclateDamage(sourcePokemon, targetPokemon);
-        double targetDamage = calclateDamage(targetPokemon, sourcePokemon);
+        double sourceDamage = calculateDamage(sourcePokemon, targetPokemon);
+        double targetDamage = calculateDamage(targetPokemon, sourcePokemon);
 
-        //determine the winner
+        // Determine the winner
         if (sourceDamage > targetDamage)
         {
             this.setWinner(sourceTrainer);
@@ -87,7 +87,7 @@ public class Competition extends Swap
         this.winner = winner;
     }
 
-    public double calclateDamage(Pokemon p1, Pokemon p2)
+    public double calculateDamage(Pokemon p1, Pokemon p2)
     {
         // Determine type effectiveness
         // NOTE: type effectiveness is currently always applied twice, since one pokemon always attacks for super-effective damage and one attacks for not-very-effective damage
